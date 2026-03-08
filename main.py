@@ -47,14 +47,14 @@ class Game:
             self.side = side
 
     class Solid_object_template: # Object template for solid objects.
-        def __init__(self, sprite, x, y):
+        def __init__(self, sprite, x, y, hitbox_width=64, hitbox_height=64):
             self.sprite = sprite
             self.x_pos = x
             self.y_pos = y
 
     class Obsticale(Solid_object_template): # bad objects >:( (inherits from Solid_object_template)
-        def __init__(self, sprite, x, y):
-            super().__init__(sprite, x, y)
+        def __init__(self, sprite, x, y, hitbox_width=64, hitbox_height=64):
+            super().__init__(sprite, x, y, hitbox_width, hitbox_height)
 
             self.x_pos = x
             self.y_pos = y
