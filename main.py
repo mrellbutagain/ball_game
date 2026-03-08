@@ -22,7 +22,11 @@ class Game:
             self.y_pos = y
 
     class Obsticale(Solid_object_template): # bad objects >:( (inherits from Solid_object_template)
-        pass
+        def __init__(self, sprite, x, y):
+            super().__init__(sprite, x, y)
+
+            self.x_pos = x
+            self.y_pos = y
 
     class Block_transition_obj: # Fade in and out effects
         def __init__(self, border):
@@ -36,14 +40,19 @@ class Game:
         pass
 
     class Pause_menu: # The pause menu.
-        pass
+        def __init__(self):
+            pass
 
-    class Bot: # Background bot that competes the level with you.
-        pass
+    class Bot(Player): # Background bot that competes the level with you. (also inherits stuff from the player)
+        def __init__(self):
+            super().__init__()
 
     class Effects: # Other cool effects.
         pass
 
     # init
     def __init__(self):
-        pass
+        pygame.init()
+
+if __name__ == "__main__":
+    g = Game()
