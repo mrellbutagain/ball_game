@@ -16,6 +16,7 @@ class Game:
     def mainLoop(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                global running
                 running = False
 
         # Rendering code
@@ -23,7 +24,7 @@ class Game:
 
         self.gamer.drawPlayer()
 
-        pygame.display.update()
+        pygame.display.flip()
         self.clock.tick(60)
 
     class Player: # The player object.
@@ -84,3 +85,5 @@ if __name__ == "__main__":
     g = Game()
     while running:
         g.mainLoop()
+    pygame.quit()
+    exit()
