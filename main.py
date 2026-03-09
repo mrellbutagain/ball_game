@@ -43,6 +43,7 @@ class Game:
         def __init__(self, screen):
             self.y_vel = 0
             self.gravity_side = 1
+            self.falling = 0
             self.screen = screen
             self.hitbox = pygame.Rect(50, 400, 64, 64)
 
@@ -50,15 +51,22 @@ class Game:
 
             if e.type == pygame.KEYDOWN: # handle for presses
                 if e.key == pygame.K_SPACE:
-                    self.gravity_side *= -1
+                    if self.falling < 3:
+                        self.gravity_side *= -1
                 
             if e.type == pygame.MOUSEBUTTONDOWN:
-                self.gravity_side *= -1
+                if self.falling < 3:
+                    self.gravity_side *= -1
+            
+            print(self.falling)
 
         def PlayerColision(self, block):
             if self.hitbox.colliderect(block):
                 self.hitbox.y -= self.y_vel
+                self.falling = 0
                 self.y_vel = 0
+            else:
+                self.falling += 1
                 
         def PlayerPhysics(self):
             self.y_vel += 1 * self.gravity_side
@@ -66,6 +74,7 @@ class Game:
 
         def drawPlayer(self):
             pygame.draw.rect(self.screen, (255, 0, 0), self.hitbox)
+        
     class Background: # Background object
         def __init__(self):
             self.paralax_amount = 0
