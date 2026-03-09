@@ -23,10 +23,16 @@ class Game:
 
             self.gamer.playerLoop(event)
 
+        self.gamer.PlayerPhysics()
+
+        self.gamer.PlayerColision(self.ground1.hitbox)
+        self.gamer.PlayerColision(self.ground2.hitbox)
+
         # Rendering code
         self.screen.fill("white")
 
         self.gamer.drawPlayer()
+
         self.ground1.drawGround()
         self.ground2.drawGround()
 
@@ -36,18 +42,27 @@ class Game:
     class Player: # The player object.
         def __init__(self, screen):
             self.y_vel = 0
+            self.gravity_side = 1
             self.screen = screen
-            self.hitbox = pygame.Rect(50, 480, 64, 64)
+            self.hitbox = pygame.Rect(50, 400, 64, 64)
 
         def playerLoop(self, e):
+
             if e.type == pygame.KEYDOWN: # handle for presses
                 if e.key == pygame.K_SPACE:
-                    print("jump")
+                    self.gravity_side *= -1
                 
             if e.type == pygame.MOUSEBUTTONDOWN:
-                print("jump")
- 
+                self.gravity_side *= -1
+
+        def PlayerColision(self, block):
+            if self.hitbox.colliderect(block):
+                self.hitbox.y -= self.y_vel
+                self.y_vel = 0
                 
+        def PlayerPhysics(self):
+            self.y_vel += 1 * self.gravity_side
+            self.hitbox.y += self.y_vel
 
         def drawPlayer(self):
             pygame.draw.rect(self.screen, (255, 0, 0), self.hitbox)
