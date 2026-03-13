@@ -25,6 +25,10 @@ class Game:
         self.block = self.Solid_object_template(9, 1, True)
         self.block2 = self.Solid_object_template(15, 7, True)
 
+        self.bg = self.Background(0)
+        self.bg1 = self.Background(500)
+        self.bg2 = self.Background(890)
+
     def mainLoop(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -42,9 +46,17 @@ class Game:
         self.block.run_loop(self.scroll_x)
         self.block2.run_loop(self.scroll_x)
 
+        self.bg.run_loop()
+        self.bg1.run_loop()
+        self.bg2.run_loop()
+
+
         # Rendering code
         self.screen.fill("white")
 
+        self.bg.drawLoop(self.screen)
+        self.bg1.drawLoop(self.screen)
+        self.bg2.drawLoop(self.screen)
         self.gamer.drawPlayer()
 
         self.block.draw(self.screen)
@@ -104,8 +116,18 @@ class Game:
             
         
     class Background: # Background object
-        def __init__(self):
-            self.paralax_amount = 0
+        def __init__(self, x_offset):
+            self.paralax_amount = 2
+            self.hitbox = pygame.Rect(x_offset, 0, 800, 600)
+            self.background_image = pygame.image.load(IMAGES["Background"])
+        
+        def run_loop(self):
+            self.hitbox.x -= self.paralax_amount
+            if self.hitbox.x <= -600:
+                self.hitbox.x = 800
+
+        def drawLoop(self, screen):
+            screen.blit(self.background_image, self.hitbox)
 
     class Ground: # Ground object
         def __init__(self, screen, side=1): # side can be 1 or 2.

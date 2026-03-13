@@ -13,3 +13,7 @@ em so basically this is how a template looks:
 2 - ground
 3 – spike
 4 - half-spike
+
+additionally: you an specify a param in [].
+params:
+[rot - rotate by 90 degrees. (so 1 - 90 deg. 2 - 180 deg etc...)]
