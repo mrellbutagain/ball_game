@@ -17,7 +17,7 @@ class Game:
         self.ground2 = self.Ground(self.screen, 2)
 
         self.block = self.Solid_object_template(9, 1, True)
-        self.block2 = self.Solid_object_template(1, 1, True)
+        self.block2 = self.Solid_object_template(15, 7, True)
 
     def mainLoop(self):
         for event in pygame.event.get():
@@ -94,9 +94,9 @@ class Game:
             self.screen = screen
 
             if side == 1:
-                self.hitbox = pygame.Rect(0, -60, 800, 128)
+                self.hitbox = pygame.Rect(0, -64, 800, 128)
             elif side == 2:
-                self.hitbox = pygame.Rect(0, 550, 800, 128)
+                self.hitbox = pygame.Rect(0, 512, 800, 128)
 
         def drawGround(self):
             pygame.draw.rect(self.screen, (125, 125, 125), self.hitbox)
