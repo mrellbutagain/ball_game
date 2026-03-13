@@ -16,7 +16,8 @@ class Game:
         self.ground1 = self.Ground(self.screen, 1)
         self.ground2 = self.Ground(self.screen, 2)
 
-        self.block = self.Solid_object_template(16, 90, True)
+        self.block = self.Solid_object_template(9, 1, True)
+        self.block2 = self.Solid_object_template(1, 1, True)
 
     def mainLoop(self):
         for event in pygame.event.get():
@@ -33,6 +34,7 @@ class Game:
         self.gamer.PlayerColision(self.ground2.hitbox)
 
         self.block.run_loop(self.scroll_x)
+        self.block2.run_loop(self.scroll_x)
 
         # Rendering code
         self.screen.fill("white")
@@ -40,6 +42,7 @@ class Game:
         self.gamer.drawPlayer()
 
         self.block.draw(self.screen)
+        self.block2.draw(self.screen)
 
         self.ground1.drawGround()
         self.ground2.drawGround()
@@ -65,8 +68,6 @@ class Game:
             if e.type == pygame.MOUSEBUTTONDOWN:
                 if self.falling < 3:
                     self.gravity_side *= -1
-            
-            print(self.falling)
 
         def PlayerColision(self, block):
             if self.hitbox.colliderect(block):
@@ -93,7 +94,7 @@ class Game:
             self.screen = screen
 
             if side == 1:
-                self.hitbox = pygame.Rect(0, -75, 800, 128)
+                self.hitbox = pygame.Rect(0, -60, 800, 128)
             elif side == 2:
                 self.hitbox = pygame.Rect(0, 550, 800, 128)
 
@@ -102,25 +103,21 @@ class Game:
 
     class Solid_object_template: # Object template for solid objects.
         def __init__(self, x, y, snap, hitbox_width=64, hitbox_height=64):
-            # self.sprite = sprite
-            self.x_pos = x
-            self.y_pos = y
-
             self.hitbox_width = hitbox_width
             self.hitbox_height = hitbox_height
+            grid_size = hitbox_width
 
             if snap:
-                grid_x = self.x_pos // self.hitbox_width
-                grid_y = self.y_pos // self.hitbox_height
-
-
-                self.snapped_x = grid_x * self.hitbox_width
-                self.snapped_y = grid_y * self.hitbox_height
-
-
-                self.hitbox = pygame.Rect(self.snapped_x, self.snapped_y, self.hitbox_width, self.hitbox_height)
+                # Snap x and y to nearest grid position
+                self.x_pos = x * grid_size
+                self.y_pos = y * grid_size
             else:
-                self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.hitbox_width, self.hitbox_height)
+                self.x_pos = x
+                self.y_pos = y
+
+            print("grid size:", x * grid_size)
+
+            self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.hitbox_width, self.hitbox_height)
         
         def run_loop(self, scroll_amount):
             self.hitbox.x = (scroll_amount * -1) + self.x_pos
